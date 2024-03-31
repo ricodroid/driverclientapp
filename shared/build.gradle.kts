@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    id("co.touchlab.skie") version "0.4.19"
+    kotlin("plugin.serialization") version "1.9.20"
 }
 
 kotlin {
@@ -25,12 +27,22 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+        // android・iOS共通ライブラリ
+            implementation(libs.kotlinx.coroutines.core)
+        }
+        androidMain.dependencies {
+        // android用ライブラリ
+            implementation(libs.androidx.lifecycle.viewmodel.ktx)
+        }
+        iosMain.dependencies {
+        // iOS用ライブラリ
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
+
+    task("testClasses")
 }
 
 android {
